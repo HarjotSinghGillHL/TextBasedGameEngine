@@ -1,0 +1,7 @@
+C:\Users\W0487821\Documents\MyRepos\TextBasedGameEngine\TextBasedGameEngine\obj\Debug\TextBasedGameEngine.csproj.AssemblyReference.cache
+C:\Users\W0487821\Documents\MyRepos\TextBasedGameEngine\TextBasedGameEngine\obj\Debug\TextBasedGameEngine.csproj.CoreCompileInputs.cache
+C:\Users\W0487821\Documents\MyRepos\TextBasedGameEngine\TextBasedGameEngine\bin\Debug\TextBasedGameEngine.exe.config
+C:\Users\W0487821\Documents\MyRepos\TextBasedGameEngine\TextBasedGameEngine\bin\Debug\TextBasedGameEngine.exe
+C:\Users\W0487821\Documents\MyRepos\TextBasedGameEngine\TextBasedGameEngine\bin\Debug\TextBasedGameEngine.pdb
+C:\Users\W0487821\Documents\MyRepos\TextBasedGameEngine\TextBasedGameEngine\obj\Debug\TextBasedGameEngine.exe
+C:\Users\W0487821\Documents\MyRepos\TextBasedGameEngine\TextBasedGameEngine\obj\Debug\TextBasedGameEngine.pdb

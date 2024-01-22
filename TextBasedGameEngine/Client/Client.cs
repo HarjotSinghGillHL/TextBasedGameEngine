@@ -4,12 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextBasedGameEngine
+namespace TextBasedGameEngine.Client
 {
-    internal class Program
+    public class HL_Client
     {
-        static void Main(string[] args)
+        public void OnFrameStart()
         {
+
+        }
+
+        public void OnFrameEnd()
+        {
+
         }
     }
 }
