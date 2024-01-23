@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,9 @@ public struct HL_BaseGlobalVars
         FrameTime = 0;
         CurrentTime = 0;
         TickCount = 0;
+        SystemDelta = 0;
+        TotalFrameTime = 0;
+        AvgFrameRate = 0;
         FrameCount = 0;
         NextSleep = 0;
         EngineInfo = _EngineInfo;
@@ -18,6 +22,11 @@ public struct HL_BaseGlobalVars
     }
 
     public double FrameTime;
+    public double TotalFrameTime;
+    public double LastSleepDelta;
+    public double SystemDelta;
+    public int FrameRate;
+    public int AvgFrameRate;
     public double CurrentTime;
     public int FrameCount;
     public double IntervalPerTick;
@@ -32,30 +41,81 @@ namespace TextBasedGameEngine.Engine
     {
         public long DateTickBegin = 0;
 
+        private Stopwatch StopWatch;
+
         public HL_BaseGlobalVars GVars;
-        public HL_BaseGlobalVars SecondOldVars; //1 second old
+       
+        List<int> AverageFrameRate;
         public void InitializeGlobalVarsMgr(HL_EngineInfo InitInfo)
         {
-            DateTickBegin = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond; ;
+            AverageFrameRate = new List<int>();
+            StopWatch = new Stopwatch();
+            DateTickBegin = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond; 
             GVars.Construct(InitInfo);
         }
         public void OnFrameStart()
         {
+            StopWatch.Stop();
+            GVars.SystemDelta = StopWatch.Elapsed.TotalMilliseconds;
+            StopWatch.Reset();
+
+            StopWatch.Start();
+
+            GVars.NextSleep = 0; 
+
             GVars.CurrentTime = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - DateTickBegin;
+        }
+
+        public void OnTick()
+        {
+            GVars.TickCount++;
         }
         public void OnFrameEnd()
         {
-            GVars.FrameTime = ((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - DateTickBegin) - GVars.CurrentTime;
-            Console.WriteLine(GVars.FrameTime);
+            StopWatch.Stop();
 
-            if (GVars.CurrentTime - SecondOldVars.CurrentTime > 1000.0)
+            GVars.FrameTime = StopWatch.Elapsed.TotalMilliseconds;
+            GVars.TotalFrameTime = GVars.FrameTime + GVars.SystemDelta + GVars.LastSleepDelta;
+            GVars.FrameRate = (int)(1.0 / GVars.TotalFrameTime);
+
+            if (AverageFrameRate.Count > 100)
             {
-                //determine sleep here using frametime
-                //SecondOldVars.NextSleep
-                SecondOldVars.CurrentTime = GVars.CurrentTime;
+                AverageFrameRate.RemoveAt(0);
+            }
+
+            AverageFrameRate.Add(GVars.FrameRate);
+
+            int TotalFrameRateForAverage = 0;
+
+            foreach (var frame in AverageFrameRate)
+                TotalFrameRateForAverage += frame;
+
+            GVars.AvgFrameRate = (int)((double)TotalFrameRateForAverage / (double)AverageFrameRate.Count);
+
+            if (GVars.FrameRate > GVars.EngineInfo.MaxFrameRate)
+            {
+                double TargetFrameTime = 1.0 / GVars.EngineInfo.MaxFrameRate;
+                int ResolvedSleep = (int)Math.Floor(TargetFrameTime * 1000.0 - (GVars.TotalFrameTime * 1000.0));
+                 
+                if (ResolvedSleep > 0)
+                    GVars.NextSleep = ResolvedSleep;
             }
 
             GVars.FrameCount++;
+
+            GVars.LastSleepDelta = 0;
+
+            if (GVars.NextSleep > 0)
+            {
+                StopWatch.Reset();
+                StopWatch.Start();
+                System.Threading.Thread.Sleep(GVars.NextSleep);
+                StopWatch.Stop();
+                GVars.LastSleepDelta = GVars.NextSleep - StopWatch.ElapsedMilliseconds;
+            }
+
+            StopWatch.Reset();
+            StopWatch.Start();
         }
     }
 }
