@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextBasedGameEngine.Client;
 using TextBasedGameEngine.Engine;
+using TextBasedGameEngine.Engine.RenderSystem;
 using TextBasedGameEngine.Game;
 using TextBasedGameEngine.Tools;
 
@@ -21,8 +22,9 @@ namespace TextBasedGameEngine.Engine
 {
     public class HL_Engine
     {
-        HL_GlobalVarsManager GlobalVarsMgr = null;
-        HL_Client Client = null;
+        public HL_GlobalVarsManager GlobalVarsMgr = null;
+        public HL_Client Client = null;
+        public HL_RenderSystem RenderInstance = null;
 
         public bool DestructEngine = false;
         double LastUpdateTime = 0;
@@ -30,8 +32,9 @@ namespace TextBasedGameEngine.Engine
         {
 
             GlobalVarsMgr = new HL_GlobalVarsManager();
+            RenderInstance = new HL_RenderSystem();
             GlobalVarsMgr.InitializeGlobalVarsMgr(InitInfo);
-
+            RenderInstance.InitializeRenderSystem(this,Client);
             Client = new HL_Client();
         }
 
@@ -46,7 +49,7 @@ namespace TextBasedGameEngine.Engine
                 OnTick();
                 LastUpdateTime = GlobalVarsMgr.GVars.CurrentTime;
             }
-            
+
         }
 
         public void OnTick()
@@ -66,12 +69,10 @@ namespace TextBasedGameEngine.Engine
             using (new HL_DevTime(1))
             {
                 while (!DestructEngine)
-            {
-
-                FrameStart();
-                FrameEnd();
-                
-            }
+                {
+                    FrameStart();
+                    FrameEnd();
+                }
             }
         }
     }
