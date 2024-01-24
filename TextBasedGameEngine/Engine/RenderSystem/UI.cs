@@ -5,24 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using TextBasedGameEngine.Client;
 
+enum EUIScreen
+{
+    UI_MAINMENU = 0,
+    UI_SCREE_MAX,
+}
+
 namespace TextBasedGameEngine.Engine.RenderSystem
 {
-    public class HL_RenderSystem
+    public class HL_UserInterface
     {
-        HL_HudOverlay HudOverlay = null;
-        HL_UserInterface UserInterface = null;
         HL_Engine OwningEngine = null;
         public void Initialize(HL_Engine _OwningEngine)
         {
-            HudOverlay = new HL_HudOverlay();
             OwningEngine = _OwningEngine;
         }
-        public void OnFrameStart()
-        {
-
-        }
-
-        public void OnFrameEnd()
+        void LoadUI(EUIScreen Screen = EUIScreen.UI_MAINMENU)
         {
 
         }

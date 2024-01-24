@@ -46,7 +46,7 @@ namespace TextBasedGameEngine.Engine
         public HL_BaseGlobalVars GVars;
        
         private List<int> AverageFrameRate;
-        public void InitializeGlobalVarsMgr(HL_EngineInfo InitInfo)
+        public void Initialize(HL_EngineInfo InitInfo)
         {
             AverageFrameRate = new List<int>();
             StopWatch = new Stopwatch();
