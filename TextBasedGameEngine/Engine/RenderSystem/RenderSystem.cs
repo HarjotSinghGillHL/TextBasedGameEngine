@@ -16,6 +16,7 @@ namespace TextBasedGameEngine.Engine.RenderSystem
         {
             HudOverlay = new HL_HudOverlay();
             OwningEngine = _OwningEngine;
+            HudOverlay.Initialize(_OwningEngine);
         }
         public void OnFrameStart()
         {

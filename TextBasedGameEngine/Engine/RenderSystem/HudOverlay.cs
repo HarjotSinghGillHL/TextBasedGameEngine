@@ -8,6 +8,10 @@ namespace TextBasedGameEngine.Engine.RenderSystem
 {
     public class HL_HudOverlay
     {
-
+        HL_Engine OwningEngine = null;
+        public void Initialize(HL_Engine _OwningEngine)
+        {
+            OwningEngine = _OwningEngine;
+        }
     }
 }
