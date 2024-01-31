@@ -10,20 +10,20 @@ namespace TextBasedGameEngine.Game
 {
     public static class HL_GameClient
     {
-        public static void OnEngineInitialize(HL_Engine Engine, HL_Client Client)
+        public static void OnEngineInitialize(HL_Engine Engine)
         {
             Engine.GameManager.MapManager.Load("Map.txt");
         }
-        public static void OnFrameStart(HL_Engine Engine, HL_Client Client)
+        public static void OnFrameStart(HL_Engine Engine)
         {
             
         }
-        public static void OnTick(HL_Engine Engine, HL_Client Client)
+        public static void OnTick(HL_Engine Engine)
         {
             
         }
 
-        public static void OnFrameEnd(HL_Engine Engine, HL_Client Client)
+        public static void OnFrameEnd(HL_Engine Engine)
         {
          
         }

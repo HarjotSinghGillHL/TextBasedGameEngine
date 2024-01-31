@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using TextBasedGameEngine.Client;
 using TextBasedGameEngine.Engine;
 using TextBasedGameEngine.Engine.RenderSystem;
 using TextBasedGameEngine.Game;
@@ -18,10 +17,10 @@ public struct HL_EngineInfo
     public double MaxFrameRate;
     public Vector2 ScreenSize;
     public float DpiScaleFactor;
-    public Action<HL_Engine, HL_Client> OnEngineInitialize;
-    public Action<HL_Engine, HL_Client> OnFrameStart;
-    public Action<HL_Engine, HL_Client> OnTick;
-    public Action<HL_Engine, HL_Client> OnFrameEnd;
+    public Action<HL_Engine> OnEngineInitialize;
+    public Action<HL_Engine> OnFrameStart;
+    public Action<HL_Engine> OnTick;
+    public Action<HL_Engine> OnFrameEnd;
 }
 
 namespace TextBasedGameEngine.Engine
@@ -29,7 +28,6 @@ namespace TextBasedGameEngine.Engine
     public class HL_Engine
     {
         public HL_GlobalVarsManager GlobalVarsMgr = null;
-        public HL_Client Client = null;
         public HL_GameManager GameManager = null;
         public HL_RenderSystem RenderInstance = null;
         public HL_UserInterface UserInterface = null;
@@ -49,18 +47,15 @@ namespace TextBasedGameEngine.Engine
             RenderInstance.Initialize(this);
             UserInterface.Initialize(this);
 
-            Client = new HL_Client();
-
             HL_System.SetConsoleWindowToFullScreen();
-            HL_GameClientManager.RunGameClientOnEngineInitialize(this, Client, GlobalVarsMgr.GVars.EngineInfo.OnEngineInitialize);
+            GlobalVarsMgr.GVars.EngineInfo.OnEngineInitialize(this);
         }
 
         public void FrameStart()
         {
             GlobalVarsMgr.OnFrameStart();
-            Client.OnFrameStart();
             RenderInstance.OnFrameStart();
-            HL_GameClientManager.RunGameClientOnFrameStart(this, Client, GlobalVarsMgr.GVars.EngineInfo.OnFrameStart);
+            GlobalVarsMgr.GVars.EngineInfo.OnFrameStart(this);
 
             if ((GlobalVarsMgr.GVars.CurrentTime - LastUpdateTime) >= GlobalVarsMgr.GVars.IntervalPerTick)
             {
@@ -72,14 +67,12 @@ namespace TextBasedGameEngine.Engine
 
         public void OnTick()
         {
-            HL_GameClientManager.RunGameClientOnTick(this, Client, GlobalVarsMgr.GVars.EngineInfo.OnTick);
+            GlobalVarsMgr.GVars.EngineInfo.OnTick(this);
             GlobalVarsMgr.OnTick();
-            Client.OnTick();
         }
         public void FrameEnd()
         {
-            HL_GameClientManager.RunGameClientOnFrameEnd(this, Client, GlobalVarsMgr.GVars.EngineInfo.OnFrameEnd);
-            Client.OnFrameEnd();
+            GlobalVarsMgr.GVars.EngineInfo.OnFrameEnd(this);
             RenderInstance.OnFrameEnd();
             GlobalVarsMgr.OnFrameEnd();
         }
