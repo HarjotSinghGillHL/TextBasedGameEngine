@@ -22,6 +22,7 @@ namespace TextBasedGameEngine
             Info.OnFrameStart = HL_GameClient.OnFrameStart;
             Info.OnTick = HL_GameClient.OnTick;
             Info.OnFrameEnd = HL_GameClient.OnFrameEnd;
+            Info.OnEngineInitialize = HL_GameClient.OnEngineInitialize;
 
             Info.ScreenSize = HL_System.GetScreenSize();
             Info.DpiScaleFactor = HL_System.GetScreenDpiScale();

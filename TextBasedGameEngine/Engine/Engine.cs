@@ -18,6 +18,7 @@ public struct HL_EngineInfo
     public double MaxFrameRate;
     public Vector2 ScreenSize;
     public float DpiScaleFactor;
+    public Action<HL_Engine, HL_Client> OnEngineInitialize;
     public Action<HL_Engine, HL_Client> OnFrameStart;
     public Action<HL_Engine, HL_Client> OnTick;
     public Action<HL_Engine, HL_Client> OnFrameEnd;
@@ -49,14 +50,9 @@ namespace TextBasedGameEngine.Engine
             UserInterface.Initialize(this);
 
             Client = new HL_Client();
-            Console.Write(InitInfo.DpiScaleFactor);
-            if (InitInfo.ScreenSize.x > 0 && InitInfo.ScreenSize.y > 0)
-            {
-             //   Console.SetWindowSize((int)Console.LargestWindowWidth, (int)Console.LargestWindowHeight);
-                
-            } 
+
             HL_System.SetConsoleWindowToFullScreen();
-            Load("Assets/Menu/Menu.txt");
+            HL_GameClientManager.RunGameClientOnEngineInitialize(this, Client, GlobalVarsMgr.GVars.EngineInfo.OnEngineInitialize);
         }
 
         public void FrameStart()
@@ -86,10 +82,6 @@ namespace TextBasedGameEngine.Engine
             Client.OnFrameEnd();
             RenderInstance.OnFrameEnd();
             GlobalVarsMgr.OnFrameEnd();
-        }
-        public void Load(string MapName)
-        {
-
         }
 
         public void RunEngine()

@@ -10,6 +10,11 @@ namespace TextBasedGameEngine.Client
 {
     public class HL_GameClientManager
     {
+        public static void RunGameClientOnEngineInitialize(HL_Engine Engine, HL_Client Client, Action<HL_Engine, HL_Client> OnEngineInitialize)
+        {
+            OnEngineInitialize(Engine, Client);
+        }
+
         public static void RunGameClientOnFrameStart(HL_Engine Engine, HL_Client Client, Action<HL_Engine, HL_Client> OnFrameStart)
         {
             OnFrameStart(Engine, Client);
