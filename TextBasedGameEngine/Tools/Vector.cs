@@ -29,14 +29,14 @@ namespace TextBasedGameEngine.Tools
 
     public class Vector2
     {
-        public float x; public float y;
+        public int x; public int y;
 
         public Vector2()
         {
             x = 0; y = 0; 
         }
 
-        public Vector2(float x, float y)
+        public Vector2(int x, int y)
         {
             this.x = x;
             this.y = y;
@@ -46,5 +46,21 @@ namespace TextBasedGameEngine.Tools
         {
             return new Vector2(0, 0);
         }
+
+        public static Vector2 operator +(Vector2 This, Vector2 Other)
+        {
+            return new Vector2(This.x + Other.x, This.y + Other.y);
+        }
+
+        public static bool operator ==(Vector2 This, Vector2 Other)
+        {
+            return This.x == Other.x && This.y == Other.y;
+        }
+        public static bool operator !=(Vector2 This, Vector2 Other)
+        {
+            return This.x != Other.x || This.y != Other.y;
+        }
+
+
     }
 }

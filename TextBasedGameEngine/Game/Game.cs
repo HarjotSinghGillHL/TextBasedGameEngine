@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextBasedGameEngine.Engine;
+using TextBasedGameEngine.Engine.GameManager;
 
 namespace TextBasedGameEngine.Game
 {
@@ -15,11 +16,12 @@ namespace TextBasedGameEngine.Game
         }
         public static void OnFrameStart(HL_Engine Engine)
         {
-            
+            HL_MapManager.HandleLocalPlayer();
+
         }
         public static void OnTick(HL_Engine Engine)
         {
-            
+            HL_MapManager.HandleEntities();
         }
 
         public static void OnFrameEnd(HL_Engine Engine)

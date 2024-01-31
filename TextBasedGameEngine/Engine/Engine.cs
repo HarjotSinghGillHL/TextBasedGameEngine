@@ -48,6 +48,10 @@ namespace TextBasedGameEngine.Engine
             UserInterface.Initialize(this);
 
             HL_System.SetConsoleWindowToFullScreen();
+            Console.CursorVisible = false;
+            Console.Title = "MiniGame : Hunt";
+            HL_Console.SetConsoleFontSize(12, 25);
+
             GlobalVarsMgr.GVars.EngineInfo.OnEngineInitialize(this);
         }
 
